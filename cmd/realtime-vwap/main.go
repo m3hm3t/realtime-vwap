@@ -1,8 +1,8 @@
-package realtime_vwap
+package main
 
 import (
 	"context"
-	"github.com/m3hm3t/realtime-vwap/internal/ws"
+	"github.com/m3hm3t/realtime-vwap/internal/wired"
 	"log"
 	"os"
 	"os/signal"
@@ -27,7 +27,15 @@ func main() {
 		os.Exit(0)
 	}()
 
-	err := ws.Run(ctx)
+	client := wired.InitializeWsClient()
+
+	tradingPairs := []string{
+		"BTC-USD",
+		"ETH-USD",
+		"ETH-BTC",
+	}
+
+	err := client.Start(ctx, tradingPairs)
 	if err != nil {
 		log.Fatal(err)
 	}

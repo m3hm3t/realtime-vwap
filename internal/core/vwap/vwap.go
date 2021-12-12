@@ -19,14 +19,18 @@ type CalculatorService struct {
 	MaxSize uint
 }
 
-func NewVwapCalculator(dataPoint []DataPoint) Calculator {
+func NewVwapCalculator(maxSize uint) *CalculatorService {
 	return &CalculatorService{
-		DataPoints:        dataPoint,
-		MaxSize:           defaultMaxSize,
+		DataPoints:        []DataPoint{},
+		MaxSize:           maxSize,
 		SumVolumeWeighted: make(map[string]decimal.Decimal),
 		SumVolume:         make(map[string]decimal.Decimal),
 		VWAP:              make(map[string]decimal.Decimal),
 	}
+}
+
+func ProvideVwapCalculator() Calculator {
+	return NewVwapCalculator(defaultMaxSize)
 }
 
 func (s *CalculatorService) Len() int {

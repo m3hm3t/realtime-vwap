@@ -3,9 +3,11 @@ module github.com/m3hm3t/realtime-vwap
 go 1.17
 
 require (
-	github.com/gorilla/websocket v1.4.2
+	github.com/golang/mock v1.6.0
+	github.com/google/wire v0.5.0
 	github.com/shopspring/decimal v1.3.1
 	github.com/stretchr/testify v1.7.0
+	golang.org/x/net v0.0.0-20211209124913-491a49abca63
 )
 
 require (

@@ -11,8 +11,7 @@ import (
 func TestList(t *testing.T) {
 	t.Parallel()
 
-	list, err := vwap.NewList([]vwap.DataPoint{}, 1)
-	assert.NoError(t, err)
+	vwapCalculator := vwap.NewVwapCalculator(1)
 
 	first := vwap.DataPoint{Price: decimal.NewFromInt(1), Volume: decimal.NewFromInt(1)}
 
@@ -20,24 +19,23 @@ func TestList(t *testing.T) {
 
 	third := vwap.DataPoint{Price: decimal.NewFromInt(3), Volume: decimal.NewFromInt(3)}
 
-	list.Push(first)
-	assert.Equal(t, 1, list.Len())
-	assert.Equal(t, first, list.DataPoints[0])
+	vwapCalculator.Calculate(first)
+	assert.Equal(t, 1, vwapCalculator.Len())
+	assert.Equal(t, first, vwapCalculator.DataPoints[0])
 
-	list.Push(second)
-	assert.Equal(t, 1, list.Len())
-	assert.Equal(t, second, list.DataPoints[0])
+	vwapCalculator.Calculate(second)
+	assert.Equal(t, 1, vwapCalculator.Len())
+	assert.Equal(t, second, vwapCalculator.DataPoints[0])
 
-	list.Push(third)
-	assert.Equal(t, 1, list.Len())
-	assert.Equal(t, third, list.DataPoints[0])
+	vwapCalculator.Calculate(third)
+	assert.Equal(t, 1, vwapCalculator.Len())
+	assert.Equal(t, third, vwapCalculator.DataPoints[0])
 }
 
 func TestListConcurrentPush(t *testing.T) {
 	t.Parallel()
 
-	list, err := vwap.NewList([]vwap.DataPoint{}, 2)
-	assert.NoError(t, err)
+	vwapCalculator := vwap.NewVwapCalculator(2)
 
 	first := vwap.DataPoint{Price: decimal.NewFromInt(1), Volume: decimal.NewFromInt(1)}
 
@@ -50,23 +48,23 @@ func TestListConcurrentPush(t *testing.T) {
 	wg.Add(3)
 
 	go func() {
-		list.Push(first)
+		vwapCalculator.Calculate(first)
 		wg.Done()
 	}()
 
 	go func() {
-		list.Push(second)
+		vwapCalculator.Calculate(second)
 		wg.Done()
 	}()
 
 	go func() {
-		list.Push(third)
+		vwapCalculator.Calculate(third)
 		wg.Done()
 	}()
 
 	wg.Wait()
 
-	assert.Len(t, list.DataPoints, 2)
+	assert.Equal(t, vwapCalculator.Len(), 2)
 }
 
 func TestVWAP(t *testing.T) {
@@ -120,15 +118,14 @@ func TestVWAP(t *testing.T) {
 		t.Run(tt.Name, func(t *testing.T) {
 			t.Parallel()
 
-			list, err := vwap.NewList([]vwap.DataPoint{}, tt.MaxSize)
-			assert.NoError(t, err)
+			vwapCalculator := vwap.NewVwapCalculator(tt.MaxSize)
 
 			for _, d := range tt.DataPoints {
-				list.Push(d)
+				vwapCalculator.Calculate(d)
 			}
 
 			for k := range tt.WantVwap {
-				assert.Equal(t, tt.WantVwap[k].String(), list.VWAP[k].String())
+				assert.Equal(t, tt.WantVwap[k].String(), vwapCalculator.VWAP[k].String())
 			}
 		})
 	}
