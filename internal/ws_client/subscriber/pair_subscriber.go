@@ -24,7 +24,7 @@ func (s *PairSubscriber) Subscribe(conn *ws.Conn, pairs []string) error {
 		Type:       dto.RequestTypeSubscribe,
 		ProductIDs: pairs,
 		Channels: []dto.Channel{
-			{Name: "matches"},
+			{Name: dto.ChannelTypeMatches},
 		},
 	}
 

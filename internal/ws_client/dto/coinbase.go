@@ -9,19 +9,13 @@ import (
 type RequestType string
 
 const (
-	RequestTypeSubscribe     RequestType = "subscribe"
-	RequestTypeUnsubscribe   RequestType = "unsubscribe"
-	RequestTypeSubscriptions RequestType = "subscriptions"
-	RequestTypeError         RequestType = "error"
+	RequestTypeSubscribe RequestType = "subscribe"
 )
 
 type ChannelType string
 
 const (
-	ChannelTypeLevel2    ChannelType = "level2"
-	ChannelTypeHeartBeat ChannelType = "heartbeat"
-	ChannelTypeTicker    ChannelType = "ticker"
-	ChannelTypeMatches   ChannelType = "matches"
+	ChannelTypeMatches ChannelType = "matches"
 )
 
 type Channel struct {

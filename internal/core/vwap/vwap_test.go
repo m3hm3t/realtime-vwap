@@ -21,15 +21,15 @@ func TestList(t *testing.T) {
 
 	vwapCalculator.Calculate(first)
 	assert.Equal(t, 1, vwapCalculator.Len())
-	assert.Equal(t, first, vwapCalculator.DataPoints[0])
+	assert.Equal(t, first, vwapCalculator.DataPointQueue[0])
 
 	vwapCalculator.Calculate(second)
 	assert.Equal(t, 1, vwapCalculator.Len())
-	assert.Equal(t, second, vwapCalculator.DataPoints[0])
+	assert.Equal(t, second, vwapCalculator.DataPointQueue[0])
 
 	vwapCalculator.Calculate(third)
 	assert.Equal(t, 1, vwapCalculator.Len())
-	assert.Equal(t, third, vwapCalculator.DataPoints[0])
+	assert.Equal(t, third, vwapCalculator.DataPointQueue[0])
 }
 
 func TestListConcurrentPush(t *testing.T) {

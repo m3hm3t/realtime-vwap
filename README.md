@@ -34,7 +34,7 @@ Contains Websocket framework codes, JSON schemas, protocol definitions
 ### `/core`
 Business logic stores in this package
 
-## Desing and Architecture
+## Design and Architecture
 
 The Domain-Driven-Design approach was used for the services. The project's main focus is located under the core package. Also, the Port-Adapter architecture is used for implementing interfaces and their integrations with the domain.
 The core package is dependent on interfaces, not technology-related structs. So if interfaces change from Websocket Client to MQ consumer, there will be no change for the domain layer.
